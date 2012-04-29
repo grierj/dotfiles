@@ -1,3 +1,12 @@
+" Vim Pathogen
+" in ~/.vim/bundle run:
+" git clone git://github.com/tpope/vim-fugitive.git
+" git clone git://github.com/klen/python-mode.git
+call pathogen#infect()
+call pathogen#helptags()
+
+filetype plugin indent on
+
 if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
    set fileencodings=ucs-bom,utf-8,latin1
 endif
@@ -45,7 +54,6 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
-filetype plugin on
 
 if &term=="xterm"
      set t_Co=8
@@ -61,3 +69,4 @@ let &guicursor = &guicursor . ",a:blinkon0"
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
+

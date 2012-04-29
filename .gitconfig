@@ -67,9 +67,6 @@
 	insteadOf = "gist:"[user]
 	name = Grier Johnson
 	email = grierj@gmail.com
-
 [user]
-    name = Grier Johnson
-    email = grierj@gmail.com
-[github]
-    user = grierj
+	name = Grier Johnson
+	email = grierj@gmail.com

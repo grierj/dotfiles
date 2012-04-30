@@ -27,6 +27,3 @@ complete -W "NSGlobalDomain" defaults
 
 # Add `killall` tab completion for common apps
 complete -o "nospace" -W "Finder Dock Mail Safari iTunes iCal Address\ Book SystemUIServer" killall
-
-# Add path for MacPorts.  This pains the brew-zealots, I'm sure.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH

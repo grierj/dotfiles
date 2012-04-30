@@ -1,9 +1,25 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 #git pull
+
 function doIt() {
-	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" --exclude "README.md" -av . ~
+  rsync --exclude ".git/" --exclude ".DS_Store" --exclude "*.sh" --exclude "README.md" -av . ~
 }
+
+function BackUp() {
+  bud="dotbackup/$(date +%s)"
+  if [ ! -d $bud ]; then
+    mkdir -p ~/$bud
+  fi
+  for f in * .*; do
+    if [ -f ~/$f ]; then
+      rsync -avP ~/$f ~/$bud/
+    fi
+  done
+}
+
+BackUp
+
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
 	doIt
 else
@@ -15,3 +31,4 @@ else
 fi
 unset doIt
 source ~/.bash_profile
+

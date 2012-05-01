@@ -14,3 +14,8 @@ export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 
 # GPG Terminal
 export GPG_TTY=`tty`
+#
+# Add macports to darwin OSes
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+fi

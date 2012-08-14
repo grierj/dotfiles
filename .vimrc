@@ -57,7 +57,6 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
-
 if &term=="xterm"
      set t_Co=8
      set t_Sb=^[[4%dm
@@ -73,3 +72,9 @@ nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
 
+" Python highlighting
+let python_highlight_all = 1
+
+"set background=dark
+colorscheme molokai
+"colorscheme railscat

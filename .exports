@@ -10,7 +10,7 @@ export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignoredups
 # Make some commands not show up in history
-export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
+#export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 
 # GPG Terminal
 export GPG_TTY=`tty`
@@ -19,3 +19,4 @@ export GPG_TTY=`tty`
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 fi
+export PATH=$HOME/bin:$PATH

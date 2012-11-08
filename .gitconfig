@@ -16,17 +16,12 @@
 	# Undo a `git push`
 	undopush = push -f origin HEAD^:master
 
-[apply]
-	# Detect whitespace errors when applying a patch
-  whitespace = fix
-
 [core]
 	# Use custom `.gitignore` and `.gitattributes`
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
-	# Treat spaces before tabs, lines that are indented with 8 or more spaces, and all kinds of trailing whitespace as an error
-	whitespace = space-before-tab,indent-with-non-tab,trailing-space
-  autocrlf = false
+	# Tell me about trailing spaces
+	whitespace = trailing-space
 
 
 [color]
@@ -61,17 +56,20 @@
 	insteadOf = "gh:"
 	pushInsteadOf = "github:"
 	pushInsteadOf = "git://github.com/"
+	name = Grier Johnson
+	email = grierj@gmail.com
 [url "git://github.com/"]
 	insteadOf = "github:"
+	name = Grier Johnson
+	email = grierj@gmail.com
 [url "git@gist.github.com:"]
 	insteadOf = "gst:"
 	pushInsteadOf = "gist:"
 	pushInsteadOf = "git://gist.github.com/"
-[url "git://gist.github.com/"]
-	insteadOf = "gist:"[user]
 	name = Grier Johnson
 	email = grierj@gmail.com
-[user]
+[url "git://gist.github.com/"]
+	insteadOf = "gist:"[user]
 	name = Grier Johnson
 	email = grierj@gmail.com
 [push]

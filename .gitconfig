@@ -16,16 +16,13 @@
 	# Undo a `git push`
 	undopush = push -f origin HEAD^:master
 
-[apply]
-	# Detect whitespace errors when applying a patch
-	whitespace = fix
-
 [core]
 	# Use custom `.gitignore` and `.gitattributes`
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
-	# Treat spaces before tabs, lines that are indented with 8 or more spaces, and all kinds of trailing whitespace as an error
-	whitespace = space-before-tab,indent-with-non-tab,trailing-space
+	# Tell me about trailing spaces
+	whitespace = trailing-space
+
 
 [color]
 	# Use colors in Git commands that are capable of colored output when outputting to the terminal
@@ -46,7 +43,9 @@
 [merge]
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
-
+  summary = true
+[branch]
+  autosetupmerge = true
 # Use `origin` as the default remote on the `master` branch in all cases
 [branch "master"]
 	remote = origin
@@ -57,16 +56,28 @@
 	insteadOf = "gh:"
 	pushInsteadOf = "github:"
 	pushInsteadOf = "git://github.com/"
+	name = Grier Johnson
+	email = grierj@gmail.com
 [url "git://github.com/"]
 	insteadOf = "github:"
+	name = Grier Johnson
+	email = grierj@gmail.com
 [url "git@gist.github.com:"]
 	insteadOf = "gst:"
 	pushInsteadOf = "gist:"
 	pushInsteadOf = "git://gist.github.com/"
+	name = Grier Johnson
+	email = grierj@gmail.com
 [url "git://gist.github.com/"]
 	insteadOf = "gist:"[user]
 	name = Grier Johnson
 	email = grierj@gmail.com
-[user]
-	name = Grier Johnson
-	email = grierj@gmail.com
+[push]
+  config = default
+  default = tracking
+[diff]
+  renames = true
+[status]
+  showUntrackedFiles = all
+[rebase]
+  autosquash = true

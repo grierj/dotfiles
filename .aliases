@@ -36,7 +36,7 @@ alias sudo='sudo '
 
 # Update macports or yum
 if [[ "$OSTYPE" =~ ^darwin ]]; then
-    alias update='sudo port selfupdate && sudo port upgrade outdated'
+    alias update='sudo port selfupdate && sudo port -u upgrade outdated'
 else
     alias update='sudo yum -y update'
 fi

@@ -21,9 +21,9 @@ if [[ "$OSTYPE" =~ ^darwin ]]; then
 fi
 
 # Add go if it's there
-$GOROOT = /usr/local/go
-if [ -d $GOROOT/bin ]
-  export $GOROOT
+GOROOT=/usr/local/go
+if [ -d $GOROOT/bin ]; then
+  export GOROOT
   export PATH=$PATH:$GOROOT/bin
 fi
 

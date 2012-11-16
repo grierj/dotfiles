@@ -5,8 +5,8 @@
 " git clone git://github.com/klen/python-mode.git
 " git clone git://github.com/tpope/vim-fugitive.git
 " or any other module that loads with pathogen
-call pathogen#infect()
-call pathogen#helptags()
+"call pathogen#infect()
+"call pathogen#helptags()
 
 filetype plugin indent on
 
@@ -74,6 +74,7 @@ set showmode
 
 " Python highlighting
 let python_highlight_all = 1
+
 
 "set background=dark
 colorscheme molokai

@@ -29,3 +29,10 @@ unset doIt
 unset BackUp
 source ~/.bash_profile
 
+IFS=''
+echo -n "Git E-mail? "
+read ge
+git config --global user.email $ge
+echo -n "Git Name? "
+read gn
+git config --global user.name $gn

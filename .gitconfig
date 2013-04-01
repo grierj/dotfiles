@@ -16,7 +16,7 @@
   # Undo a `git push`
   undopush = push -f origin HEAD^:master
   # Git pull for non-master branches
-  pom = pull origin master
+  mom = !"git fetch; git merge origin/master"
 
 [core]
   # Use custom `.gitignore` and `.gitattributes`

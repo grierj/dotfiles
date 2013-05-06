@@ -77,5 +77,6 @@ let python_highlight_all = 1
 
 
 "set background=dark
-colorscheme molokai
+colorscheme ir_black
+"colorscheme molokai
 "colorscheme railscat

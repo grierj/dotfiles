@@ -18,7 +18,7 @@
   # Git pull for non-master branches
   mom = !"git fetch; git merge origin/master"
   # Git merge the upstream master
-  mom = !"git fetch upstream; git merge upstream/master"
+  mum = !"git fetch upstream; git merge upstream/master"
 
 [core]
   # Use custom `.gitignore` and `.gitattributes`

@@ -2,6 +2,11 @@
 cd "$(dirname "$0")"
 #git pull
 
+function gitStuff() {
+  my_email=`git config --get user.email`
+  my_name=`git config --get user.name`
+}
+
 function doIt() {
   rsync --exclude ".git/" --exclude ".DS_Store" --exclude "*.sh" --exclude "README.md" -av . ~
 }
@@ -19,20 +24,26 @@ function BackUp() {
 }
 
 
+gitStuff
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
 	doIt
 else
-    BackUp
+  BackUp
 	doIt
 fi
 unset doIt
 unset BackUp
+unset gitStuff
 source ~/.bash_profile
 
 IFS=''
-echo -n "Git E-mail? "
-read ge
-git config --global user.email $ge
-echo -n "Git Name? "
-read gn
-git config --global user.name $gn
+if [ -z $my_email ]; then
+  echo -n "Git E-mail? "
+  read my_email
+fi
+git config --global user.email $my_email
+if [ -z $my_name ]; then
+  echo -n "Git Name? "
+  read my_name
+fi
+git config --global user.name $my_name

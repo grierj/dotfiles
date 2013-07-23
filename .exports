@@ -29,3 +29,6 @@ fi
 
 # Add local bin dir
 export PATH=$HOME/bin:$PATH
+
+# Add startup script for python shell
+export PYTHONSTARTUP=$HOME/.pythonrc

@@ -20,8 +20,15 @@ if [[ "$OSTYPE" =~ ^darwin ]]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 fi
 
-# Add go if it's there
+# Add the path to go if it's there
+if [ -d /usr/local/go ]; then
+  export PATH=$PATH:/usr/local/go/bin
+fi
+
+# set up a default GOPATH
 export GOPATH=$HOME/godev
+
+# Add the default GOPATH to PATH
 if [ -d $GOPATH/bin ]; then
   export PATH=$PATH:$GOPATH/bin
 fi

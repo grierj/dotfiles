@@ -32,7 +32,11 @@ fi
 
 # Update macports or yum
 if [[ "$OSTYPE" =~ ^darwin ]]; then
+  if [ -e /usr/local/bin/brew ]; then
+    alias update='brew update && brew upgrade `brew outdated`'
+  else
     alias update='sudo port selfupdate && sudo port -u upgrade outdated'
+  fi
 else
     alias update='sudo yum -y update'
 fi

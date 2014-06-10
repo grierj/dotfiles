@@ -1,20 +1,25 @@
-" Vim Pathogen
-" in ~/.vim/autoload run:
-" wget https://raw.github.com/tpope/vim-pathogen/HEAD/autoload/pathogen.vim
-" in ~/.vim/bundle run:
-" git clone git://github.com/klen/python-mode.git
-" git clone git://github.com/tpope/vim-fugitive.git
-" or any other module that loads with pathogen
-"call pathogen#infect()
-"call pathogen#helptags()
+set nocompatible        " Use Vim defaults (much better!)
 
-filetype plugin indent on
+filetype indent plugin on
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" Vundles
+Bundle 'gmarik/vundle'
+Bundle 'jamessan/vim-gnupg'
+Bundle 'fatih/vim-go'
+Bundle 'seveas/bind.vim'
+Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-vividchalk'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'hdima/python-syntax'
+Bundle 'wting/rust.vim'
+Bundle 'elzr/vim-json'
 
 if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
    set fileencodings=ucs-bom,utf-8,latin1
 endif
 
-set nocompatible        " Use Vim defaults (much better!)
 set bs=indent,eol,start         " allow backspacing over everything in insert mode
 "set ai                 " always set autoindenting on
 set smartindent     " cindent
@@ -23,11 +28,16 @@ set viminfo='20,\"50    " read/write a .viminfo file, don't store more
                         " than 50 lines of registers
 set history=50          " keep 50 lines of command line history
 set ruler               " show the cursor position all the time
-set tabstop=4       " set a hard tabstop
-set shiftwidth=4    " set the size of an indent
-set softtabstop=4   " set a soft tabstop
-set expandtab       " turn tabs into spaces
+set tabstop=2           " set a hard tabstop
+set shiftwidth=2        " set the size of an indent
+set softtabstop=2       " set a soft tabstop
+set expandtab           " turn tabs into spaces
 set smarttab
+set smartcase           " case-sensitive search if any caps
+set listchars=tab:▸\ ,trail:▫  " visible characters for tabs and trailing
+
+" in case you forgot to sudo
+cnoremap w!! %!sudo tee > /dev/null %
 
 " don't expand tabs for makefiles
 autocmd FileType make setlocal noexpandtab
@@ -74,7 +84,6 @@ set showmode
 
 " Python highlighting
 let python_highlight_all = 1
-
 
 "set background=dark
 colorscheme vividchalk

@@ -1,6 +1,7 @@
 set nocompatible        " Use Vim defaults (much better!)
 
-filetype indent plugin on
+filetype on
+filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
@@ -20,21 +21,28 @@ if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
    set fileencodings=ucs-bom,utf-8,latin1
 endif
 
-set bs=indent,eol,start         " allow backspacing over everything in insert mode
-"set ai                 " always set autoindenting on
-set smartindent     " cindent
-"set backup             " keep a backup file
-set viminfo='20,\"50    " read/write a .viminfo file, don't store more
-                        " than 50 lines of registers
-set history=50          " keep 50 lines of command line history
-set ruler               " show the cursor position all the time
-set tabstop=2           " set a hard tabstop
-set shiftwidth=2        " set the size of an indent
-set softtabstop=2       " set a soft tabstop
-set expandtab           " turn tabs into spaces
-set smarttab
-set smartcase           " case-sensitive search if any caps
+" ensure ftdetect et al work by including this after the Vundle stuff
+filetype plugin indent on
+
+set bs=indent,eol,start        " allow backspacing over everything in insert mode
+set ai                         " always set autoindenting on
+set smartindent                " cindent
+set backup                     " keep a backup file
+set viminfo='20,\"50           " read/write a .viminfo file, don't store more
+                               " than 50 lines of registers
+set history=50                 " keep 50 lines of command line history
+set ruler                      " show the cursor position all the time
+set tabstop=2                  " set a hard tabstop
+set shiftwidth=2               " set the size of an indent
+set softtabstop=2              " set a soft tabstop
+set expandtab                  " turn tabs into spaces
+set smarttab                   " use shiftwidth where appropriate for tabs
+set smartcase                  " case-sensitive search if any caps
+set list                       " show trailing whitespace
 set listchars=tab:▸\ ,trail:▫  " visible characters for tabs and trailing
+set laststatus=2               " always show statusline
+set scrolloff=3                " show context above/below cursorline
+set ruler                      " show where you are
 
 " in case you forgot to sudo
 cnoremap w!! %!sudo tee > /dev/null %

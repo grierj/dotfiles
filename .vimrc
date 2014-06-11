@@ -1,7 +1,5 @@
 set nocompatible        " Use Vim defaults (much better!)
 
-filetype on
-filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 

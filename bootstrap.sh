@@ -1,6 +1,12 @@
 #!/bin/bash
 cd "$(dirname "$0")"
-#git pull
+
+function die() {
+  if [ $0 != 0 ]; then
+    echo $@
+    exit 1
+  fi
+}
 
 function gitStuff() {
   my_email=`git config --get user.email`
@@ -9,6 +15,14 @@ function gitStuff() {
 
 function doIt() {
   rsync --exclude ".git/" --exclude ".DS_Store" --exclude "*.sh" --exclude "README.md" -av . ~
+}
+
+function getVundle() {
+  if [ ! -d ~/.vim/bundle/vundle ]; then
+    mkdir ~/.vim/bundle || die "Can't make bundle directory for vim"
+    cd ~/.vim/bundle
+    git clone https://github.com/gmarik/Vundle.vim.git vundle
+  fi
 }
 
 function BackUp() {
@@ -23,18 +37,22 @@ function BackUp() {
   done
 }
 
-
 gitStuff
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-	doIt
+  echo "Skipping backup due to --force"
 else
-  BackUp
-	doIt
+  BackUp || die "Couldn't backup old file, use --force to override"
 fi
+doIt || die "Something went terribly wrong installing your dotfiles"
 unset doIt
 unset BackUp
 unset gitStuff
+
 source ~/.bash_profile
+
+getVundle || die "Vundle failed to install"
+unset getVundle
+vim -c "BundleInstall" -c "q" -c "q"
 
 IFS=''
 if [ -z $my_email ]; then

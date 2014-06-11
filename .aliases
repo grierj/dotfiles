@@ -41,6 +41,9 @@ else
     alias update='sudo yum -y update'
 fi
 
+# Install vundles
+alias vinstall='vim -c "BundleInstall" -c "q" -c "q"'
+
 # IP addresses
 alias localip="ipconfig getifaddr en1"
 alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"

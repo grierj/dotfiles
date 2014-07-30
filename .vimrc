@@ -14,6 +14,10 @@ Bundle 'vim-ruby/vim-ruby'
 Bundle 'hdima/python-syntax'
 Bundle 'wting/rust.vim'
 Bundle 'elzr/vim-json'
+Bundle 'thoughtbot/vim-rspec'
+Bundle 'tpope/vim-rvm'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'tpope/vim-markdown'
 
 if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
    set fileencodings=ucs-bom,utf-8,latin1
@@ -45,8 +49,6 @@ set ruler                      " show where you are
 " in case you forgot to sudo
 cnoremap w!! %!sudo tee > /dev/null %
 
-" don't expand tabs for makefiles
-autocmd FileType make setlocal noexpandtab
 
 " Only do this part when compiled with support for autocommands
 if has("autocmd")
@@ -64,6 +66,13 @@ if has("autocmd")
   " start with spec file template
   autocmd BufNewFile *.spec 0r /usr/share/vim/vimfiles/template.spec
   augroup END
+
+  " don't expand tabs for makefiles
+  autocmd FileType make setlocal noexpandtab
+
+  " 4 spaces for some languages
+  autocmd Filetype rust setlocal ts=4 sts=4 sw=4
+  autocmd Filetype python setlocal ts=4 sts=4 sw=4
 endif
 
 " Switch syntax highlighting on, when the terminal has colors

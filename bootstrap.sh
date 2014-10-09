@@ -19,9 +19,25 @@ function doIt() {
 
 function getVundle() {
   if [ ! -d ~/.vim/bundle/vundle ]; then
-    mkdir ~/.vim/bundle || die "Can't make bundle directory for vim"
+    if [ ! -d ~/.vim/bundle ]; then
+      mkdir ~/.vim/bundle || die "Can't make bundle directory for vim"
+    fi
     cd ~/.vim/bundle
     git clone https://github.com/gmarik/Vundle.vim.git vundle
+  fi
+}
+
+# When vundle is first installed, we don't have colors and so vim
+# stops and asks for you to hit return
+function commentColor() {
+  if [ -f ~/.vimrc ]; then
+    perl -pi -e 's#colorscheme#"colorscheme#' ~/.vimrc
+  fi
+}
+
+function uncommentColor() {
+  if [ -f ~/.vimrc ]; then
+    perl -pi -e 's#"colorscheme#colorscheme#' ~/.vimrc
   fi
 }
 
@@ -52,7 +68,11 @@ source ~/.bash_profile
 
 getVundle || die "Vundle failed to install"
 unset getVundle
+commentColor
 vim -c "BundleInstall" -c "q" -c "q"
+uncommentColor
+unset commentColor
+unset uncommentColor
 
 IFS=''
 if [ -z $my_email ]; then

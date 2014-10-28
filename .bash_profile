@@ -34,3 +34,6 @@ complete -o "nospace" -W "Finder Dock Mail Safari iTunes iCal Address\ Book Syst
 # Use RVM if it exists
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 [[ -n `which rbenv > /dev/null 2>&1` ]] && eval "$(rbenv init -)"
+
+# Source a local file for things that shouldn't be checked into git
+[[ -f "$HOME/.bash.local" ]] && source "$HOME/.bash.local"

@@ -43,6 +43,7 @@ fi
 
 # Install vundles
 alias vinstall='vim -c "BundleInstall" -c "q" -c "q"'
+alias vupdate='vim -c "BundleUpdate" -c "q" -c "q"'
 
 # IP addresses
 alias localip="ipconfig getifaddr en1"

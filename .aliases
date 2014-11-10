@@ -50,8 +50,8 @@ alias localip="ipconfig getifaddr en1"
 alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
 alias ipsort="sort -n -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4"
 
-# Enhanced WHOIS lookups
-alias whois="whois -h whois-servers.net"
+# Enhanced WHOIS lookups -- This times out frequently now
+#alias whois="whois -h whois-servers.net"
 
 # Flush Directory Service cache
 alias flush="dscacheutil -flushcache"

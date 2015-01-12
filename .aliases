@@ -109,3 +109,6 @@ done
 # Stuff I never really use but cannot delete either because of http://xkcd.com/530/
 alias stfu="osascript -e 'set volume output muted true'"
 alias pumpitup="osascript -e 'set volume 10'"
+
+# Rerun with sudo.  h/t https://twitter.com/liamosaur/status/506975850596536320
+alias fuck='sudo $(history -p \!\!)'

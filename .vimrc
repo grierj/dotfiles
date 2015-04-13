@@ -25,6 +25,9 @@ if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
    set fileencodings=ucs-bom,utf-8,latin1
 endif
 
+" Set leader key to space
+let mapleader = ' '
+
 " ensure ftdetect et al work by including this after the Vundle stuff
 filetype plugin indent on
 
@@ -47,6 +50,7 @@ set listchars=tab:▸\ ,trail:▫  " visible characters for tabs and trailing
 set laststatus=2               " always show statusline
 set scrolloff=3                " show context above/below cursorline
 set ruler                      " show where you are
+set showcmd                    " show commands
 
 " in case you forgot to sudo
 cnoremap w!! %!sudo tee > /dev/null %
@@ -96,6 +100,8 @@ let &guicursor = &guicursor . ",a:blinkon0"
 
 " Set a C&P mode to F2, show that we're in that mode
 nnoremap <F2> :set invpaste paste?<CR>
+" Semantic coloring toggle
+nnoremap <leader>s :SemanticHighlightToggle<CR>
 set pastetoggle=<F2>
 set showmode
 

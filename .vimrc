@@ -20,6 +20,8 @@ Bundle 'tpope/vim-unimpaired'
 Bundle 'tpope/vim-markdown'
 Bundle 'vim-scripts/confluencewiki.vim'
 Bundle 'jaxbot/semantic-highlight.vim'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/nerdcommenter'
 
 if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
    set fileencodings=ucs-bom,utf-8,latin1
@@ -102,6 +104,8 @@ let &guicursor = &guicursor . ",a:blinkon0"
 nnoremap <F2> :set invpaste paste?<CR>
 " Semantic coloring toggle
 nnoremap <leader>s :SemanticHighlightToggle<CR>
+" Nerd tree toggle
+nnoremap <leader>n :NERDTreeToggle<CR>
 set pastetoggle=<F2>
 set showmode
 

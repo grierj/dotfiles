@@ -69,3 +69,8 @@ function codepoint() {
 	perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
 	echo # newline
 }
+
+function servedir() {
+  port="${1:-8000}"
+  mongoose -listening_port $port
+}

@@ -7,3 +7,6 @@ hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u
 
 # Default utf8
 defutf8 on
+
+# Use a bash login shell by default
+defshell -bash

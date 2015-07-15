@@ -15,9 +15,10 @@ export HISTCONTROL=ignoredups
 # GPG Terminal
 export GPG_TTY=`tty`
 #
-# Add macports to darwin OSes
-if [[ "$OSTYPE" =~ ^darwin ]]; then
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+
+# Add /usr/local/sbin for homebrew
+if [ -d /usr/local/sbin ]; then
+  export PATH=/usr/local/sbin:$PATH
 fi
 
 # Add the path to go if it's there

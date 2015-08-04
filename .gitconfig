@@ -17,8 +17,10 @@
   undopush = push -f origin HEAD^:master
   # Git pull for non-master branches
   mom = !"git fetch; git merge origin/master"
+  rom = !"git fetch; git rebase origin/master"
   # Git merge the upstream master
   mum = !"git fetch upstream; git merge upstream/master"
+  rum = !"git fetch upstream; git rebase upstream/master"
 
 [core]
   # Use custom `.gitignore` and `.gitattributes`

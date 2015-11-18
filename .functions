@@ -74,3 +74,14 @@ function servedir() {
   port="${1:-8000}"
   mongoose -listening_port $port
 }
+
+# Replace the ssh hostkey in your known_hosts file
+function rekey() {
+  hostname=$1
+  if [ -z $hostname ]; then
+    echo "Usage: rekey <hostname>"
+    return
+  fi
+  ssh-keygen -R $hostname
+  ssh-keyscan $hostname >> ~/.ssh/known_hosts
+}

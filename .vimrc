@@ -114,3 +114,10 @@ let python_highlight_all = 1
 
 "set background=dark
 colorscheme vividchalk
+
+"retab when saving files
+fu! RetabOnSave()
+    %retab!
+endfunction
+
+autocmd BufWritePre * :call RetabOnSave()

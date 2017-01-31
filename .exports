@@ -44,10 +44,5 @@ fi
 # Add local bin dir
 export PATH=$HOME/bin:$PATH
 
-# Add pyenv shims if pyenv is installed
-if [ -f /usr/local/bin/pyenv ]; then
-  export PATH=$HOME/.pyenv/shims:$PATH
-fi
-
 # Add startup script for python shell
 export PYTHONSTARTUP=$HOME/.pythonrc

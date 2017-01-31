@@ -85,3 +85,7 @@ function rekey() {
   ssh-keygen -R $hostname
   ssh-keyscan $hostname >> ~/.ssh/known_hosts
 }
+
+function pyenv-init() {
+  eval "$(pyenv init -)"
+}

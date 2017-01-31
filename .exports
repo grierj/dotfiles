@@ -15,11 +15,17 @@ export HISTCONTROL=ignoredups
 # GPG Terminal
 export GPG_TTY=`tty`
 #
+
 # Add macports to darwin OSes if you don't have brew installed
 if [[ "$OSTYPE" =~ ^darwin ]]; then
   if [ ! -f /usr/local/bin/brew ]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
   fi
+fi
+
+# Add /usr/local/sbin for homebrew
+if [ -d /usr/local/sbin ]; then
+  export PATH=/usr/local/sbin:$PATH
 fi
 
 # Add the path to go if it's there
@@ -37,6 +43,11 @@ fi
 
 # Add local bin dir
 export PATH=$HOME/bin:$PATH
+
+# Add pyenv shims if pyenv is installed
+if [ -f /usr/local/bin/pyenv ]; then
+  export PATH=$HOME/.pyenv/shims:$PATH
+fi
 
 # Add startup script for python shell
 export PYTHONSTARTUP=$HOME/.pythonrc

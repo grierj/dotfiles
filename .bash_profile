@@ -15,6 +15,7 @@ for file in $(whereami)/.{extra,bash_prompt,exports,aliases,functions}; do
   [ -r "$file" ] && source "$file"
 done
 unset file
+unset whereami
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob

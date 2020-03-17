@@ -13,8 +13,23 @@ function gitStuff() {
   my_name=`git config --get user.name`
 }
 
+function makePlugin() {
+  CUSTOM_PREFIX="custom/plugins/mydotfiles"
+  CUSTOM_FILE="$CUSTOM_PREFIX/mydotfiles.plugin.zsh"
+  if [ ! -d $CUSTOM_PREFIX ]; then
+    mkdir -p $CUSTOM_PREFIX
+  fi
+  cat .aliases > $CUSTOM_FILE
+  cat .functions >> $CUSTOM_FILE
+  cat .exports >> $CUSTOM_FILE
+}
+
 function doIt() {
-  rsync --exclude ".git/" --exclude ".DS_Store" --exclude "*.sh" --exclude "README.md" -av . ~
+  if [[ "$OSTYPE" = darwin* ]]; then
+    rsync --exclude "custom/" --exclude ".bash*" --exclude ".inputrc" --exclude ".aliases" --exclude ".export" --exclude ".functions" --exclude ".git/" --exclude ".DS_Store" --exclude "*.sh" --exclude "README.md" -av . ~
+  else
+    rsync --exclude ".git/" --exclude ".DS_Store" --exclude "*.sh" --exclude "README.md" -av . ~
+  fi
 }
 
 function getVundle() {
@@ -54,6 +69,7 @@ function BackUp() {
 }
 
 gitStuff
+makePlugin
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
   echo "Skipping backup due to --force"
 else
@@ -63,8 +79,16 @@ doIt || die "Something went terribly wrong installing your dotfiles"
 unset doIt
 unset BackUp
 unset gitStuff
+unset makePlugin
 
-source ~/.bash_profile
+if [[ "$OSTYPE" = darwin* ]]; then
+  # can't source from in bash
+  echo "#####################"
+  echo "Run 'source ~/.zshrc'"
+  echo "#####################"
+else
+  source ~/.bash_profile
+fi
 
 getVundle || die "Vundle failed to install"
 unset getVundle

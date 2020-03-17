@@ -90,3 +90,11 @@ function pyenv-init() {
   export PATH=$HOME/.pyenv/shims:$PATH
   eval "$(pyenv init -)"
 }
+
+# Bind keys in zsh
+# usage: bindtc <cap> <fallback> <zsh-command>
+bindtc () 
+{
+  local keyval=$(echotc "$1" 2>&-)
+  bindkey "${keyval:-$2}" "$3"
+}

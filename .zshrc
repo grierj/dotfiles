@@ -35,9 +35,6 @@ ENABLE_CORRECTION="true"
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US"
 
-# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
-
 # Use RVM if it exists
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 # Use rbenv if it exists and rvm didn't init
@@ -48,5 +45,11 @@ fi
 # Use pyenv if it exists
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
+# Bindings for PGUP, PGDN, HOME, END
+bindtc kP "^[[I" history-beginning-search-backward
+bindtc kN "^[[G" history-beginning-search-forward
+bindtc kh "^[[H" beginning-of-line
+bindtc kH "^[[F" end-of-line
+
 # Source a local file for things that shouldn't be checked into git
-[[ -f "$HOME/.bash.local" ]] && source "$HOME/.bash.local"
+[[ -f "$HOME/.zsh.local" ]] && source "$HOME/.zsh.local"

@@ -1,0 +1,2 @@
+autoload -U colors && colors
+PROMPT="%B%{$fg[red]%}%n%{$reset_color%}%B@%{$fg[magenta]%}%m %{$fg[green]%}%1~ %#%b "

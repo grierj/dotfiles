@@ -81,9 +81,12 @@ if which pyenv > /dev/null 2>&1; then
 fi
 
 # Allow for local loads that shouldn't be in git
-if [ -f ~/.zshrc.local ]; then
-  source ~/.zshrc.local
+if [ -d "$HOME/.zsh.local" ]; then
+  for f in `find $HOME/.zsh.local -type f`; do
+    source $f
+  done
 fi
+[[ -f "$HOME/.zsh.local" ]] && source "$HOME/.zsh.local"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

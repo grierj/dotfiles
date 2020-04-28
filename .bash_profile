@@ -53,4 +53,9 @@ fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 
 # Source a local file for things that shouldn't be checked into git
+if [ -d "$HOME/.bash.local" ]; then
+  for f in `find "$HOME/.bash.local" -type f`; do
+    source $f
+  done
+fi
 [[ -f "$HOME/.bash.local" ]] && source "$HOME/.bash.local"

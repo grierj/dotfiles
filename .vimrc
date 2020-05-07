@@ -1,28 +1,28 @@
 set nocompatible        " Use Vim defaults (much better!)
 
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" Vundles
-Bundle 'gmarik/vundle'
-Bundle 'jamessan/vim-gnupg'
-Bundle 'fatih/vim-go'
-Bundle 'seveas/bind.vim'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-vividchalk'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'hdima/python-syntax'
-Bundle 'wting/rust.vim'
-Bundle 'elzr/vim-json'
-Bundle 'thoughtbot/vim-rspec'
-Bundle 'tpope/vim-rvm'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-markdown'
-Bundle 'hashivim/vim-terraform'
-Bundle 'vim-scripts/confluencewiki.vim'
-Bundle 'jaxbot/semantic-highlight.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/nerdcommenter'
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'jaxbot/semantic-highlight.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'tpope/vim-vividchalk'
+Plugin 'jamessan/vim-gnupg'
+Plugin 'fatih/vim-go'
+Plugin 'hdima/python-syntax'
+Plugin 'elzr/vim-json'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-markdown'
+Plugin 'hashivim/vim-terraform'
+Plugin 'vim-scripts/confluencewiki.vim'
+"Plugin 'seveas/bind.vim'
+"Plugin 'tpope/vim-rails'
+"Plugin 'vim-ruby/vim-ruby'
+"Plugin 'thoughtbot/vim-rspec'
+"Plugin 'tpope/vim-rvm'
+"Plugin 'wting/rust.vim'
+call vundle#end()
+filetype plugin indent on
 
 if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
    set fileencodings=ucs-bom,utf-8,latin1
@@ -82,7 +82,16 @@ if has("autocmd")
   " 4 spaces for some languages
   autocmd Filetype rust setlocal ts=4 sts=4 sw=4
   autocmd Filetype python setlocal ts=4 sts=4 sw=4
+
+
 endif
+" Autoformat terraform files, this doesn't work if we autocmd it, but is
+" restricted in the plugin to only terraform files anyhow
+let g:terraform_align=1
+let g:terraform_fmt_on_save=1
+
+" Set go-vim to use goimports instead of gopls
+let b:go_imports_mode = 'goimports'
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.

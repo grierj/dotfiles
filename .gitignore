@@ -15,3 +15,6 @@ Thumbs.db
 
 # The generated plugin
 custom/plugins/mydotfiles
+
+# Ignore .vim bundles
+*/.vim/bundle/*

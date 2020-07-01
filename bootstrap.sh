@@ -15,7 +15,7 @@ function die() {
 }
 
 function installOhMyZsh {
-  if [[ -z $ZSH ]]; then
+  if [[ -z $ZSH ]] || [[ ! -d $ZSH ]]; then
     bash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   fi
 }
@@ -94,7 +94,9 @@ function BackUp() {
 }
 
 gitStuff
-makePlugin
+if [[ "$PREFIX" = "zsh" ]]; then
+  installOhMyZsh || die "Couldn't install oh my zsh, you'll have to do it manually"
+fi
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
   echo "Skipping backup due to --force"
 else
@@ -107,7 +109,6 @@ unset gitStuff
 unset makePlugin
 
 if [[ "$PREFIX" = "zsh" ]]; then
-  installOhMyZsh || die "Couldn't install oh my zsh, you'll have to do it manually"
   # can't source from in bash
   echo "#####################"
   echo "Run 'source ~/.zshrc'"

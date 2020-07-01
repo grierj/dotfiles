@@ -14,20 +14,15 @@ function die() {
   fi
 }
 
+function installOhMyZsh {
+  if [[ -z $ZSH ]]; then
+    bash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  fi
+}
+
 function gitStuff() {
   my_email=`git config --get user.email`
   my_name=`git config --get user.name`
-}
-
-function makePlugin() {
-  CUSTOM_PREFIX="custom/plugins/mydotfiles"
-  CUSTOM_FILE="$CUSTOM_PREFIX/mydotfiles.plugin.zsh"
-  if [ ! -d $CUSTOM_PREFIX ]; then
-    mkdir -p $CUSTOM_PREFIX
-  fi
-  cat bash/.aliases > $CUSTOM_FILE
-  cat bash/.functions >> $CUSTOM_FILE
-  cat bash/.exports >> $CUSTOM_FILE
 }
 
 function makeLink() {
@@ -112,6 +107,7 @@ unset gitStuff
 unset makePlugin
 
 if [[ "$PREFIX" = "zsh" ]]; then
+  installOhMyZsh || die "Couldn't install oh my zsh, you'll have to do it manually"
   # can't source from in bash
   echo "#####################"
   echo "Run 'source ~/.zshrc'"

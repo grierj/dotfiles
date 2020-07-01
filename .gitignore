@@ -13,5 +13,5 @@ Thumbs.db
 # VIM swap files
 .*.swp
 
-# The generated plugin
-custom/plugins/mydotfiles
+# Ignore .vim bundles
+*/.vim/bundle/*

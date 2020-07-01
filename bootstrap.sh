@@ -1,10 +1,22 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
+if [[ "$SHELL" = */zsh ]]; then
+  PREFIX="zsh"
+else
+  PREFIX="bash"
+fi
+
 function die() {
   if [ $0 != 0 ]; then
     echo $@
     exit 1
+  fi
+}
+
+function installOhMyZsh {
+  if [[ -z $ZSH ]]; then
+    bash -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   fi
 }
 
@@ -13,23 +25,36 @@ function gitStuff() {
   my_name=`git config --get user.name`
 }
 
-function makePlugin() {
-  CUSTOM_PREFIX="custom/plugins/mydotfiles"
-  CUSTOM_FILE="$CUSTOM_PREFIX/mydotfiles.plugin.zsh"
-  if [ ! -d $CUSTOM_PREFIX ]; then
-    mkdir -p $CUSTOM_PREFIX
+function makeLink() {
+  file="$1"
+  final_file=$(realpath $file)
+  filename=$(basename $file)
+  if [[ "$filename" == "/" ]] || [[ "$filename" == "." ]] || [[ "$filename" == ".." ]] || [[ "$filename" == "" ]]; then
+    die "Got '$filename' for linking, which you don't want, your script is busted"
   fi
-  cat .aliases > $CUSTOM_FILE
-  cat .functions >> $CUSTOM_FILE
-  cat .exports >> $CUSTOM_FILE
+  homefile="$HOME/$filename"
+  if [[ -h $homefile ]] && [[ "$(readlink -n $homefile)" != "$final_file" ]]; then
+    echo "$(readlink $homefile) isn't the same as $final_file) removing link"
+    rm $homefile
+  fi
+  if [[ ! -h $homefile ]]; then
+    if [[ -e $homefile ]] && [[ -e $final_file ]]; then
+      rm -rf $homefile
+    fi
+    echo "Linking $final_file to $homefile"
+    ln -s $final_file $homefile
+  fi
 }
 
+
 function doIt() {
-  if [[ "$OSTYPE" = darwin* ]]; then
-    rsync --exclude "custom/" --exclude ".bash*" --exclude ".inputrc" --exclude ".aliases" --exclude ".export" --exclude ".functions" --exclude ".git/" --exclude ".DS_Store" --exclude "*.sh" --exclude "README.md" -av . ~
-  else
-    rsync --exclude ".git/" --exclude ".DS_Store" --exclude "*.sh" --exclude "README.md" -av . ~
-  fi
+  pushd $PREFIX
+    for dotfile in .[a-zA-Z0-9]*; do
+      makeLink $PWD/$dotfile
+    done
+  popd
+  # I don't want to check in whatever user/e-mail I am at the time because this leaks employer info
+  cp .gitconfig ~/.gitconfig
 }
 
 function getVundle() {
@@ -46,13 +71,13 @@ function getVundle() {
 # stops and asks for you to hit return
 function commentColor() {
   if [ -f ~/.vimrc ]; then
-    perl -pi -e 's#colorscheme#"colorscheme#' ~/.vimrc
+    perl -pi -e 's#colorscheme#"colorscheme#' $(realpath ~/.vimrc)
   fi
 }
 
 function uncommentColor() {
   if [ -f ~/.vimrc ]; then
-    perl -pi -e 's#"colorscheme#colorscheme#' ~/.vimrc
+    perl -pi -e 's#"colorscheme#colorscheme#' $(realpath ~/.vimrc)
   fi
 }
 
@@ -81,7 +106,8 @@ unset BackUp
 unset gitStuff
 unset makePlugin
 
-if [[ "$OSTYPE" = darwin* ]]; then
+if [[ "$PREFIX" = "zsh" ]]; then
+  installOhMyZsh || die "Couldn't install oh my zsh, you'll have to do it manually"
   # can't source from in bash
   echo "#####################"
   echo "Run 'source ~/.zshrc'"

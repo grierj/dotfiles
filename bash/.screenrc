@@ -1,3 +1,5 @@
+altscreen on
+term screen-256color
 # Disable the startup message
 startup_message off
 # Window list at the bottom of the screen with the current window highlighted
@@ -7,6 +9,3 @@ hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u
 
 # Default utf8
 defutf8 on
-
-# Use a bash login shell by default
-defshell -bash

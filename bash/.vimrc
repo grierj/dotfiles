@@ -3,6 +3,7 @@ set nocompatible        " Use Vim defaults (much better!)
 set rtp+=~/.vim/bundle/vundle/
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'editorconfig/editorconfig-vim'
 Plugin 'jaxbot/semantic-highlight.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'

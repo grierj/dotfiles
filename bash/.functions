@@ -106,3 +106,11 @@ function ghpr() {
   pr_url=$github_url"/compare/$branch_name?expand=1"
   open $pr_url;
 }
+
+function sneknem() {
+  chars=4
+  if [ -n "$1" ]; then
+    chars=$1
+  fi
+  python -c "import string; import random; print(''.join([ random.choice(string.ascii_lowercase) for _ in range(int(${chars})) ]))"
+}

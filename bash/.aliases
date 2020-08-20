@@ -121,3 +121,7 @@ alias fuck='sudo $(history -p \!\!)'
 # Docker cleanup aliases
 alias docker_clean_images='docker rmi $(docker images -a --filter=dangling=true -q)'
 alias docker_clean_ps='docker rm $(docker ps --filter=status=exited --filter=status=created -q)'
+
+# Terraform helpers
+alias tfplan='rm -rf .terraform ~/.terraform.d && mq terraform init && mq terraform plan -- -out tfplan'
+alias tfpb='mq terraform show -- -no-color tfplan | pbcopy'

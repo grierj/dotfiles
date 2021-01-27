@@ -76,9 +76,16 @@ plugins=(git myaliases myfunctions myexports)
 source $ZSH/oh-my-zsh.sh
 
 # Enable pyenv
-if which pyenv > /dev/null 2>&1; then
-  eval "$(pyenv init -)"
+# Disabled because pipenv usually handles this internally
+#if which pyenv > /dev/null 2>&1; then
+#  eval "$(pyenv init -)"
+#fi
+
+# Enable jenv
+if which jenv > /dev/null 2>&1; then
+  eval "$(jenv init -)"
 fi
+
 
 # Allow for local loads that shouldn't be in git
 if [ -d "$HOME/.zsh.local" ]; then

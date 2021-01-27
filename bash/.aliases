@@ -125,3 +125,6 @@ alias docker_clean_ps='docker rm $(docker ps --filter=status=exited --filter=sta
 # Terraform helpers
 alias tfplan='rm -rf .terraform ~/.terraform.d && mq terraform init && mq terraform plan -- -out tfplan'
 alias tfpb='mq terraform show -- -no-color tfplan | pbcopy'
+
+# Intellij Helpers
+alias idea='pushd ~/intellij; /usr/local/bin/idea; popd'

@@ -78,9 +78,12 @@ source $ZSH/oh-my-zsh.sh
 
 # Enable pyenv
 # Disabled because pipenv usually handles this internally
-#if which pyenv > /dev/null 2>&1; then
-#  eval "$(pyenv init -)"
-#fi
+if which pyenv > /dev/null 2>&1; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init --path)"
+  eval "$(pyenv init -)"
+fi
 
 # Enable jenv
 if which jenv > /dev/null 2>&1; then

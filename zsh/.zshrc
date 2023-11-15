@@ -12,6 +12,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # Good vanilla
 #ZSH_THEME="lukerandall"
 ZSH_THEME="gentoo"
+#ZSH_THEME="michelebologna"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -75,12 +76,6 @@ plugins=(git asdf myaliases myfunctions myexports)
 
 source $ZSH/oh-my-zsh.sh
 
-# Enable pyenv
-if which pyenv > /dev/null 2>&1; then
-  export PATH=$HOME/.pyenv/shims:$PATH
-  eval "$(pyenv init -)"
-fi
-
 # Enable jenv
 if which jenv > /dev/null 2>&1; then
   eval "$(jenv init -)"
@@ -97,3 +92,4 @@ fi
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"

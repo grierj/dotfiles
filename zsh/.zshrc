@@ -71,21 +71,20 @@ ZSH_CUSTOM=$HOME/git/dotfiles/custom
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git myaliases myfunctions myexports)
+plugins=(git asdf myaliases myfunctions myexports)
 
 source $ZSH/oh-my-zsh.sh
 
 # Enable pyenv
-# Disabled because pipenv usually handles this internally
-#if which pyenv > /dev/null 2>&1; then
-#  eval "$(pyenv init -)"
-#fi
+if which pyenv > /dev/null 2>&1; then
+  export PATH=$HOME/.pyenv/shims:$PATH
+  eval "$(pyenv init -)"
+fi
 
 # Enable jenv
 if which jenv > /dev/null 2>&1; then
   eval "$(jenv init -)"
 fi
-
 
 # Allow for local loads that shouldn't be in git
 if [ -d "$HOME/.zsh.local" ]; then

@@ -19,3 +19,5 @@ Thumbs.db
 # Alway ignore intellij
 .idea
 
+# My ephemeral notes
+GRIER_NOTES.md

@@ -30,7 +30,7 @@ fi
 
 # Add the path to go if it's there
 if [ -d /usr/local/go ]; then
-  export PATH=$PATH:/usr/local/go/bin
+  export PATH=/usr/local/go/bin:$PATH
 fi
 
 # set up a default GOPATH
@@ -38,11 +38,21 @@ export GOPATH=$HOME/godev
 
 # Add the default GOPATH to PATH
 if [ -d $GOPATH/bin ]; then
-  export PATH=$PATH:$GOPATH/bin
+  export PATH=$GOPATH/bin:$PATH
 fi
 
 # Add local bin dir
 export PATH=$HOME/bin:$PATH
 
+# Add a local python bin dir if it exists
+if [ -d $HOME/.local/bin ]; then
+  export PATH=$HOME/.local/bin:$PATH
+fi
+
 # Add startup script for python shell
 export PYTHONSTARTUP=$HOME/.pythonrc
+
+# Add pyenv shims directory if it exists
+if [ -d $HOME/.pyenv/shims ]; then
+  export PATH=$HOME/.pyenv/shims:$PATH
+fi

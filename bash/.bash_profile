@@ -51,7 +51,7 @@ if [ -z $rvm_path ]; then
 fi
 
 # Use pyenv if it exists
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+if which pyenv-virtualenv-init > /dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
 
 # Source a local file for things that shouldn't be checked into git
 if [ -d "$HOME/.bash.local" ]; then

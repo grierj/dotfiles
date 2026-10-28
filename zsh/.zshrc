@@ -93,3 +93,14 @@ fi
 export PATH="$PATH:$HOME/.rvm/bin"
 
 [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/grier/.lmstudio/bin"
+# End of LM Studio CLI section
+
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<

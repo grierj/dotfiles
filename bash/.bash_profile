@@ -60,3 +60,8 @@ if [ -d "$HOME/.bash.local" ]; then
   done
 fi
 [[ -f "$HOME/.bash.local" ]] && source "$HOME/.bash.local"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/grier/.lmstudio/bin"
+# End of LM Studio CLI section
+

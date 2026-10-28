@@ -1,58 +1,84 @@
+# Environment variables and PATH. Sourced by both ~/.bash_profile (login
+# shells) and ~/.bashrc (interactive non-login shells), so everything here
+# must be safe to run twice and in non-interactive shells.
+
+# PATH helpers: add a directory once, only if it exists. This is what makes
+# re-sourcing this file harmless instead of growing PATH duplicates.
+path_prepend() {
+  case ":${PATH}:" in
+    *":$1:"*) ;;
+    *) [ -d "$1" ] && PATH="$1:$PATH" ;;
+  esac
+}
+path_append() {
+  case ":${PATH}:" in
+    *":$1:"*) ;;
+    *) [ -d "$1" ] && PATH="$PATH:$1" ;;
+  esac
+}
+
+# Prefer US English with UTF-8, but only if that locale actually exists on
+# this machine. Naming an uninstalled locale (e.g. LANG="en_US" where only
+# en_US.UTF-8 was generated) makes every nested bash print "warning:
+# setlocale: LC_CTYPE: cannot change locale" via bash-completion.
+# Deliberately do not set LC_ALL: it overrides every category and masks
+# exactly this kind of problem.
+if locale -a 2>/dev/null | grep -qix 'en_US\.utf-\?8'; then
+  export LANG="en_US.UTF-8"
+fi
+
 # Make vim the default editor
 export EDITOR="vim"
-# Don’t clear the screen after quitting a manual page
+# Don't clear the screen after quitting a manual page
 export MANPAGER="less -X"
-# Highlight section titles in manual pages
-#export LESS_TERMCAP_md="$ORANGE"
 
-# Larger bash history (allow 32³ entries; default is 500)
+# Larger bash history (allow 32^3 entries; default is 500)
 export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoredups
-# Make some commands not show up in history
-#export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
+# Ignore duplicates and commands starting with a space, erase older dups
+export HISTCONTROL=ignoreboth:erasedups
+export HISTTIMEFORMAT='%F %T '
 
-# GPG Terminal
-export GPG_TTY=`tty`
-#
+# GPG terminal (only when we actually have one; `tty` prints junk otherwise)
+if [ -t 1 ]; then
+  GPG_TTY=$(tty 2>/dev/null)
+  [ -n "$GPG_TTY" ] && export GPG_TTY
+fi
 
-# Add macports to darwin OSes if you don't have brew installed
+# Add macports on macOS if homebrew isn't installed
+if [[ "$OSTYPE" =~ ^darwin ]] && [ ! -f /usr/local/bin/brew ] && [ ! -f /opt/homebrew/bin/brew ]; then
+  path_prepend /opt/local/sbin
+  path_prepend /opt/local/bin
+fi
+
+# Homebrew (either prefix), needed by later path entries on macOS
 if [[ "$OSTYPE" =~ ^darwin ]]; then
-  if [ ! -f /usr/local/bin/brew ]; then
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-  fi
+  path_prepend /opt/homebrew/bin
+  path_prepend /opt/homebrew/sbin
 fi
 
-# Add /usr/local/sbin for homebrew
-if [ -d /usr/local/sbin ]; then
-  export PATH=/usr/local/sbin:$PATH
-fi
+# /usr/local/sbin (homebrew on Intel macs, misc on Linux)
+path_prepend /usr/local/sbin
 
-# Add the path to go if it's there
-if [ -d /usr/local/go ]; then
-  export PATH=/usr/local/go/bin:$PATH
-fi
+# Go, if installed from the upstream tarball
+path_prepend /usr/local/go/bin
 
-# set up a default GOPATH
+# Default GOPATH and its bin directory
 export GOPATH=$HOME/godev
+path_prepend "$GOPATH/bin"
 
-# Add the default GOPATH to PATH
-if [ -d $GOPATH/bin ]; then
-  export PATH=$GOPATH/bin:$PATH
-fi
+# mise shims, so non-interactive shells (scripts, `bash -lc`) find
+# mise-managed tools even without `mise activate`
+path_prepend "$HOME/.local/share/mise/shims"
 
-# Add local bin dir
-export PATH=$HOME/bin:$PATH
+# Pyenv shims, if pyenv is still around on this machine
+path_prepend "$HOME/.pyenv/shims"
 
-# Add a local python bin dir if it exists
-if [ -d $HOME/.local/bin ]; then
-  export PATH=$HOME/.local/bin:$PATH
-fi
+# Local bin directories
+path_prepend "$HOME/.local/bin"
+path_prepend "$HOME/bin"
 
-# Add startup script for python shell
+# Startup script for the python REPL
 export PYTHONSTARTUP=$HOME/.pythonrc
 
-# Add pyenv shims directory if it exists
-if [ -d $HOME/.pyenv/shims ]; then
-  export PATH=$HOME/.pyenv/shims:$PATH
-fi
+export PATH

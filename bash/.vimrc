@@ -1,6 +1,6 @@
 set nocompatible        " Use Vim defaults (much better!)
 
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'editorconfig/editorconfig-vim'
@@ -124,7 +124,9 @@ set showmode
 let python_highlight_all = 1
 
 "set background=dark
-colorscheme vividchalk
+" silent! so vim still starts cleanly before plugins are installed
+" (vividchalk ships with a plugin; see `bootstrap.sh --vim`)
+silent! colorscheme vividchalk
 
 "retab when saving files
 fu! RetabOnSave()

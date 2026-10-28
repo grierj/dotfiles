@@ -1,6 +1,13 @@
+# Fallback prompt, used when starship isn't installed. ~/.bashrc loads this
+# first; if starship is available it replaces PS1 afterwards, Omarchy-style.
+# Where git's git-prompt.sh is available this mirrors the old zsh "gentoo"
+# theme: branch name with "*" for unstaged, "+" for staged, "%" untracked.
+
+# Only upgrade a plain "xterm"; leave modern terminals (ghostty, kitty,
+# alacritty, *-256color, ...) with the TERM they set for themselves.
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
   export TERM=gnome-256color
-elif infocmp xterm-256color >/dev/null 2>&1; then
+elif [[ $TERM = xterm ]] && infocmp xterm-256color >/dev/null 2>&1; then
   export TERM=xterm-256color
 fi
 
@@ -11,7 +18,7 @@ if tput setaf 1 &> /dev/null; then
     ORANGE=$(tput setaf 172)
     GREEN=$(tput setaf 83)
     PURPLE=$(tput setaf 129)
-    WHITE=$(tput setaf 256)
+    WHITE=$(tput setaf 255)
   else
     RED=$(tput setaf 1)
     ORANGE=$(tput setaf 3)
@@ -22,7 +29,7 @@ if tput setaf 1 &> /dev/null; then
   TBOLD=$(tput bold)
   RESET=$(tput sgr0)
 else
-  RED=BRed
+  RED="\033[1;31m"
   ORANGE="\033[1;33m"
   GREEN="\033[1;32m"
   PURPLE="\033[1;35m"
@@ -39,5 +46,32 @@ export WHITE
 export TBOLD
 export RESET
 
-export PS1='\[${TBOLD}${RED}\]\u\[$RESET\]@\[$PURPLE\]\h\[$RESET\]:\[$GREEN\]\w\[$RESET\]\$ '
+# Git segment via git-prompt.sh, if this machine has it
+_git_ps1=""
+if ! declare -F __git_ps1 >/dev/null 2>&1; then
+  for _gp in /usr/share/git/completion/git-prompt.sh \
+             /usr/share/git/git-prompt.sh \
+             /usr/share/git-core/contrib/completion/git-prompt.sh \
+             /opt/homebrew/etc/bash_completion.d/git-prompt.sh \
+             /usr/local/etc/bash_completion.d/git-prompt.sh \
+             /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh; do
+    if [ -r "$_gp" ]; then
+      # shellcheck disable=SC1090
+      source "$_gp"
+      break
+    fi
+  done
+  unset _gp
+fi
+if declare -F __git_ps1 >/dev/null 2>&1; then
+  export GIT_PS1_SHOWDIRTYSTATE=1       # "*" unstaged, "+" staged
+  export GIT_PS1_SHOWUNTRACKEDFILES=1   # "%" untracked
+  export GIT_PS1_SHOWSTASHSTATE=1       # "$" something stashed
+  # single quotes are intentional: this is evaluated per-prompt via PS1
+  # shellcheck disable=SC2016
+  _git_ps1='\[${ORANGE}\]$(__git_ps1 "(%s)")\[$RESET\]'
+fi
+
+export PS1='\[${TBOLD}${RED}\]\u\[$RESET\]@\[$PURPLE\]\h\[$RESET\]:\[$GREEN\]\w\[$RESET\]'"${_git_ps1}"'\$ '
 export PS2='\[$ORANGE\]=> \[$RESET\]'
+unset _git_ps1

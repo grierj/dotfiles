@@ -1,67 +1,39 @@
-whereami() {
-  SOURCE="${BASH_SOURCE[0]}"
-  while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
-    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-    SOURCE="$(readlink "$SOURCE")"
-    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
-  done
-  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-  echo $DIR
-}
+# Login shell setup: environment and PATH.
+# Interactive configuration lives in ~/.bashrc, which is sourced at the
+# bottom of this file for interactive login shells (terminals on macOS,
+# SSH logins on Linux). Non-login interactive shells read ~/.bashrc
+# directly, and it pulls in ~/.exports itself.
+# shellcheck disable=SC1090,SC1091
 
-# Load ~/.extra, ~/.bash_prompt, ~/.exports, ~/.aliases and ~/.functions
-# ~/.extra can be used for settings you don’t want to commit
-for file in $(whereami)/.{extra,bash_prompt,exports,aliases,functions}; do
-  [ -r "$file" ] && source "$file"
-done
-unset file
-unset whereami
+# Environment and PATH (also sourced by ~/.bashrc; the path helpers in
+# ~/.exports are duplicate-safe, so loading it twice is harmless).
+[ -r "$HOME/.exports" ] && source "$HOME/.exports"
+# Fallbacks in case ~/.exports hasn't been linked yet
+declare -F path_prepend >/dev/null 2>&1 || path_prepend() { [ -d "$1" ] && PATH="$1:$PATH"; }
+declare -F path_append >/dev/null 2>&1 || path_append() { [ -d "$1" ] && PATH="$PATH:$1"; }
 
-# Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob
+# (Locale handling lives in ~/.exports so non-login shells get it too.)
 
-# Append to the Bash history file, rather than overwriting it
-shopt -s histappend
+# Rust, if installed via rustup
+[ -r "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
-# Autocorrect typos in path names when using `cd`
-shopt -s cdspell
+# LM Studio CLI (lms)
+path_append "$HOME/.lmstudio/bin"
 
-# Don't do terrible wrapping
-shopt -s checkwinsize
+# Grok CLI
+path_prepend "$HOME/.grok/bin"
 
-# Prefer US English and use UTF-8
-export LC_ALL="en_US.UTF-8"
-export LANG="en_US"
-
-# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
-
-# Add tab completion for `defaults read|write NSGlobalDomain`
-# You could just use `-g` instead, but I like being explicit
-complete -W "NSGlobalDomain" defaults
-
-# Add `killall` tab completion for common apps
-complete -o "nospace" -W "Finder Dock Mail Safari iTunes iCal Address\ Book SystemUIServer" killall
-
-# Use RVM if it exists
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-# Use rbenv if it exists and rvm didn't init
-if [ -z $rvm_path ]; then
-  if which rbenv > /dev/null 2>&1; then eval "$(rbenv init -)"; fi
-fi
-
-# Use pyenv if it exists
-if which pyenv-virtualenv-init > /dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
-
-# Source a local file for things that shouldn't be checked into git
+# Local settings that shouldn't be checked into git: either a single
+# ~/.bash.local file or a directory of files to source.
 if [ -d "$HOME/.bash.local" ]; then
-  for f in `find "$HOME/.bash.local" -type f`; do
-    source $f
+  for _f in "$HOME"/.bash.local/*; do
+    [ -f "$_f" ] && source "$_f"
   done
+  unset _f
 fi
-[[ -f "$HOME/.bash.local" ]] && source "$HOME/.bash.local"
+[ -f "$HOME/.bash.local" ] && source "$HOME/.bash.local"
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/grier/.lmstudio/bin"
-# End of LM Studio CLI section
-
+# Interactive login shells get the interactive config too.
+if [[ $- == *i* ]] && [ -r "$HOME/.bashrc" ]; then
+  source "$HOME/.bashrc"
+fi

@@ -1,0 +1,53 @@
+# Starship prompt, linked to ~/.config/starship.toml by bootstrap.sh.
+# Layout mirrors the classic bash PS1 / zsh gentoo prompt:
+#
+#   user@host:/full/path (git-branch *) ❯
+#
+# so who and where I am is always obvious (ssh, sudo, nested shells).
+
+# No blank line before the prompt (the old PS1 didn't have one).
+add_newline = false
+command_timeout = 200
+format = "$username$hostname$directory$git_branch$git_status$character"
+
+[username]
+# Always show, not just over ssh or for root. style_root (default
+# red bold) keeps a root shell visually distinct.
+show_always = true
+format = "[$user]($style)@"
+
+[hostname]
+# Always show, trimmed at the first dot like bash's \h.
+ssh_only = false
+format = "[$hostname]($style):"
+
+[directory]
+# Full path with ~ for $HOME, like bash's \w: no truncation to the
+# last components and no collapsing to the git repo root.
+truncation_length = 0
+truncate_to_repo = false
+# (No read-only lock icon; the old prompt didn't have one.)
+format = "[$path]($style) "
+
+[character]
+error_symbol = "[✗](bold cyan)"
+success_symbol = "[❯](bold cyan)"
+
+[git_branch]
+format = "[$branch]($style) "
+style = "italic cyan"
+
+[git_status]
+format     = '[$all_status]($style)'
+style      = "cyan"
+ahead      = "⇡${count} "
+diverged   = "⇕⇡${ahead_count}⇣${behind_count} "
+behind     = "⇣${count} "
+conflicted = " "
+up_to_date = " "
+untracked  = "? "
+modified   = " "
+stashed    = ""
+staged     = ""
+renamed    = ""
+deleted    = ""
